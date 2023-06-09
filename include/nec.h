@@ -12,8 +12,6 @@
 #include <stdint.h>
 
 
-#define NEC_FREQUENCY 38000  // Hz
-
 // data and hex code size (see NecData struct); divide by 2 bytes (uint16_t)
 #define NEC_DATA_SIZE ((sizeof(NecPreamble) + sizeof(NecMessage) + sizeof(NecRepeat)) / 2)
 #define NEC_HEXCODE_SIZE (NEC_DATA_SIZE * 5)  // multiply by 5 (4 digits plus space)
@@ -51,7 +49,7 @@ typedef union {
 } __attribute__((packed)) NecData;
 
 
-const char* nec_converter(uint32_t ir_code);
+const char* nec_converter(uint32_t freq, uint32_t ir_code);
 
 
 #endif  // NEC_H

@@ -84,4 +84,8 @@ cmake --build build/
 cd build/ && ctest
 ```
 
+## Note
+
+Tested with Magic Lighting RGB LED.
+
 <!-- ----------------------------------------------------------------------- -->

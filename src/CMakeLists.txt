@@ -9,3 +9,5 @@ target_sources(${LIB_NAME} PRIVATE nec.c)
 # set header directory
 target_include_directories(${LIB_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
+# link to math library
+target_link_libraries(${LIB_NAME} PRIVATE m)

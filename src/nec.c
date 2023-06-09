@@ -7,6 +7,7 @@
 
 
 #include <stdio.h>
+#include <math.h>
 #include "nec.h"
 
 
@@ -32,7 +33,7 @@ const char* nec_converter(uint32_t freq, uint32_t ir_code) {
 
 static void fillPreamble(NecData* data, uint32_t freq) {
     data->preamble.zeros = 0;
-    data->preamble.freq = 1000000 / 0.241246 / freq;
+    data->preamble.freq = round(1000000 / 0.241246 / freq);
     data->preamble.messagePair = sizeof(data->message) / 2 / 2;
     data->preamble.repeatPair = sizeof(data->repeat) / 2 / 2;
 }
@@ -45,25 +46,25 @@ static void fillMessage(NecData* data, uint32_t freq, uint32_t ir_code) {
     // pulse length = 562.5 μs * frequency
     float pulseLength = 562.5 * freq / 1000000;
 
-    data->message.pulse = 16 * pulseLength;
-    data->message.space = 8 * pulseLength;
+    data->message.pulse = round(16 * pulseLength);
+    data->message.space = round(8 * pulseLength);
 
     int index = 0;
     for (int i = 0; i < 32; i++) {
         // pulse burst
-        data->message.code[index++] = pulseLength;
+        data->message.code[index++] = round(pulseLength);
 
         // pulse space according to binary
         if (irCodeBin[i] == 1) {
-            data->message.code[index++] = 3 * pulseLength;
+            data->message.code[index++] = round(3 * pulseLength);
         }
         else {
-            data->message.code[index++] = pulseLength;
+            data->message.code[index++] = round(pulseLength);
         }
     }
 
-    data->message.end = pulseLength;
-    data->message.pause = 71 * pulseLength;
+    data->message.end = round(pulseLength);
+    data->message.pause = round(71 * pulseLength);
 }
 
 
@@ -71,10 +72,10 @@ static void fillRepeat(NecData* data, uint32_t freq) {
     // pulse length = 562.5 μs * frequency
     float pulseLength = 562.5 * freq / 1000000;
 
-    data->repeat.pulse = 16 * pulseLength;
-    data->repeat.space = 4 * pulseLength;
-    data->repeat.end = pulseLength;
-    data->repeat.pause = 171 * pulseLength;
+    data->repeat.pulse = round(16 * pulseLength);
+    data->repeat.space = round(4 * pulseLength);
+    data->repeat.end = round(pulseLength);
+    data->repeat.pause = round(171 * pulseLength);
 }
 
 

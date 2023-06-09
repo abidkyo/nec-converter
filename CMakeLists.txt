@@ -18,8 +18,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # add library in src
 add_subdirectory(src)
 
-# test only if this is main project
+# create executable and test only if this is main project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  # add executable with main file
+  add_executable(${PROJECT_NAME} main.c)
+
+  # link with source code
+  target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME})
+
   # enable testing
   include(CTest)
 

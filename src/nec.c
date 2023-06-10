@@ -40,6 +40,8 @@ static void fillPreamble(NecData* data, uint32_t freq) {
 
 
 static void fillMessage(NecData* data, uint32_t freq, uint32_t ir_code) {
+    uint8_t pulseCount = 0;
+
     // get binary representation of IR code
     const char* irCodeBin = irCodeToBinary(ir_code);
 
@@ -57,14 +59,19 @@ static void fillMessage(NecData* data, uint32_t freq, uint32_t ir_code) {
         // pulse space according to binary
         if (irCodeBin[i] == 1) {
             data->message.code[index++] = round(3 * pulseLength);
+            pulseCount += 4;
         }
         else {
             data->message.code[index++] = round(pulseLength);
+            pulseCount += 2;
         }
     }
 
+    // add pulse count from leading pulse, leading space and end pulse
+    pulseCount += 16 + 8 + 1;
+
     data->message.end = round(pulseLength);
-    data->message.pause = round(71 * pulseLength);
+    data->message.pause = round((192 - pulseCount) * pulseLength);
 }
 
 

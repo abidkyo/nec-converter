@@ -2,7 +2,7 @@
 
 # NEC IR Hex Converter
 
-Convert IR code into Hex code.
+Convert IR code into Hex code in MSB first format.
 
 ## NEC Infrared Transmission Protocol
 
@@ -85,6 +85,10 @@ cd build/ && ctest
 ```
 
 ## Note
+
+Current implementation of NEC protocol uses LSB first format in data transmission, \
+but this code generate hex code in MSB first format for my use-case. \
+Changing the format will only require a simple modification of code.
 
 Tested with Magic Lighting RGB LED.
 
